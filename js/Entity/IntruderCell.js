@@ -1,62 +1,39 @@
 
 class HostileCell extends Phaser.Sprite {
     constructor(game, posx, posy, tilemap) {
-        super(game, posx, posy, 'rangeIndicator', 0);
+        super(game, posx, posy, 'hostileCell', 0);
         game.add.existing(this);
         game.physics.arcade.enable(this);
-        this.engaging = false;
-  
+        this._randomMovement();
+        this._targetingReticule();
         this.seededTimer = 0;
         this.body.collideWorldBounds = true;
         this.anchor.setTo(0.5);
         this.body.bounce.set(1.0);
         console.log('HostileCell fired');
-        this.targetCellX = 0;
-        this.targetCellY = 0;
-        this.movementSpeed = 10;
-        
-        
-              this._randomMovement();
-        this._targetingReticule();
-     
-    }
-    _assimilationEvent2(){
-         //this.game.physics.arcade.velocityFromAngle(this.randomangle, this.randomspeed, this.body.velocity);
-         this.game.physics.arcade.moveToXY(this, this.targetCellX,  this.targetCellY, 12, undefined);
-        console.log('assimilationeventfired' + this.targetCellX + ' ' + this.targetCellY);
-          this.engaging = false;
-         this._movementFunction();
         
     }
-    
     _targetingReticule() {
-        this.targetingReticule = this.game.add.image(0, 0, 'hostileCell');
+        this.targetingReticule = this.game.add.image(0, 0, 'rangeIndicator');
         this.targetingReticule.anchor.setTo(0.5);
            this.addChild(this.targetingReticule);
-    }
-    
-    _movementFunction() {
         
-        this.seededTimer = Math.random() * (this.movementSpeed - 1) + 1;
-        if(this.engaging === false) {
+    }
+    _movementFunction() {
+        this.seededTimer = Math.random() * (8 - 1) + 1;
         this.game.time.events.add(Phaser.Timer.SECOND * this.seededTimer, this._randomMovement, this);
-        } else {
-       // this.game.time.events.add(Phaser.Timer.SECOND * this.seededTimer, this._assimilationEvent2, this);
-            this._assimilationEvent2();
-        }
     }
 
     _randomMovement() {
-     
         this.randomspeed = Math.random() * (13 - 2) + 2;
         this.randomangle = Math.random() * (361 - 0) + 0;
-        //console.log('Random Movement fired. Speed is : ' + this.randomspeed + 'Angle is: ' + this.randomangle);
+        console.log('Random Movement fired. Speed is : ' + this.randomspeed + 'Angle is: ' + this.randomangle);
          this.game.physics.arcade.velocityFromAngle(this.randomangle, this.randomspeed, this.body.velocity);
         this._movementFunction();
     }
 
     update() {
-  
+
     }
 }
 
