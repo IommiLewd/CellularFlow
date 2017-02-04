@@ -20,7 +20,7 @@ class NeutralCell extends Phaser.Sprite {
 
     _randomMovement() {
         if(this.alive) {
-        this.randomspeed = Math.random() * (17 - 2) + 2;
+        this.randomspeed = Math.random() * (13 - 2) + 2;
         this.randomangle = Math.random() * (361 - 0) + 0;
          this.game.physics.arcade.velocityFromAngle(this.randomangle, this.randomspeed, this.body.velocity);
         this._movementFunction();

@@ -19,6 +19,7 @@ class MainWindow extends Phaser.State {
         this.randomX = Math.random() * (825 - 15) + 15;
         this.randomY = Math.random() * (525 - 15) + 15;
         this.hostileCell = new HostileCell(this.game, this.randomX, this.randomY);
+         this.hostileCellGroup.add(this.hostileCell);
     }
 
 
@@ -30,18 +31,17 @@ class MainWindow extends Phaser.State {
     }
 
     _assimilationEvent(hostileCell, neutralCell) {
-        
         console.log('Cell Takeover Initialized');
         console.log(neutralCell.x, neutralCell.y);
         neutralCell.alive = false;
         neutralCell.kill();
         this.hostileCell = new HostileCell(this.game, neutralCell.x, neutralCell.y);
+        this.hostileCellGroup.add(this.hostileCell);
     }
 
   _collisionHandler() {
        this.game.physics.arcade.collide(this.neutralCellGroup);
-       this.game.physics.arcade.collide(this.neutralCellGroup, this.hostileCell, this._assimilationEvent, null, this);
-     
+       this.game.physics.arcade.collide(this.hostileCellGroup, this.neutralCellGroup,  this._assimilationEvent, null, this);
  }
 
     create() {
